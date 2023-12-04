@@ -24,11 +24,26 @@ public class Player : NetworkBehaviour
         if (!IsOwner) return;
 
         if (Input.GetKeyDown(KeyCode.Space))
-            rb.AddForce(transform.forward * force);
+            AddForceServerRpc();
 
         horizontal = Input.GetAxis("Horizontal");
 
         if(horizontal != 0)
-            transform.Rotate(rotSpeedVec * horizontal * Time.deltaTime);
+            RotateServerRpc(horizontal * Time.deltaTime);
     }
+
+    [ServerRpc]
+    void AddForceServerRpc()
+    {
+        //Debug.Log("force added");
+        rb.velocity = Vector3.zero;
+        rb.AddForce(transform.forward * force);
+    }
+
+    [ServerRpc]
+    void RotateServerRpc(float horizontal_)
+    {
+        rb.angularVelocity = Vector3.zero;
+        transform.Rotate(rotSpeedVec * horizontal_);
+    }    
 }
