@@ -9,6 +9,9 @@ public class SceneChanger : MonoBehaviour
 {
     // Start is called before the first frame update
     bool isServer;
+
+    public static SceneChanger instance;
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += SceneHasLoaded;
@@ -19,10 +22,6 @@ public class SceneChanger : MonoBehaviour
         switch(scene.buildIndex)
         {
             case 1:
-                GameObject.Find("PlayBtn").GetComponent<Button>().onClick.AddListener(() =>
-                {
-                    SceneManager.LoadScene(2);
-                });
                 return;
             case 2:
                 if(isServer)
@@ -31,6 +30,11 @@ public class SceneChanger : MonoBehaviour
                     NetworkManager.Singleton.StartClient();
                 return;
         }    
+    }
+
+    private void Awake()
+    {
+        instance = this;
     }
 
     void Start()
@@ -48,7 +52,7 @@ public class SceneChanger : MonoBehaviour
         //if(!isServer) 
         DontDestroyOnLoad(gameObject);
         if(isServer)
-            SceneManager.LoadScene(2);
+            LoadPlayScene();
         else
             SceneManager.LoadScene(1);
     }
@@ -57,6 +61,11 @@ public class SceneChanger : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void LoadPlayScene()
+    {
+        SceneManager.LoadScene(2);
     }
 
     private void OnDisable()
