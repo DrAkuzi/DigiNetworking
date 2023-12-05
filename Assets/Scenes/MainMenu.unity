@@ -2102,6 +2102,7 @@ MonoBehaviour:
   name_: {fileID: 1892866025}
   email_: {fileID: 1025006812}
   lvlText: {fileID: 1347984577}
+  nameText: {fileID: 2086500944}
 --- !u!1 &934604972
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ header('Access-Control-Allow-Headers: Accept, X-Access-Token, X-Application-Name
 	$tabledataquery = "SELECT * FROM `networkingTest` WHERE email = '" . $email . "'";
 	
 	
-	if($result = ($con,$tabledataquery))
+	if($result = mysqli_query($con,$tabledataquery))
 	{
 		while($row = mysqli_fetch_row($result))
 		{

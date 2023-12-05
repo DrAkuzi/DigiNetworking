@@ -15,6 +15,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] TMP_InputField name_;
     [SerializeField] TMP_InputField email_;
     [SerializeField] TextMeshProUGUI lvlText;
+    [SerializeField] TextMeshProUGUI nameText;
+
 
     public static MainMenu instance;
 
@@ -49,6 +51,8 @@ public class MainMenu : MonoBehaviour
 
     public void LoginDone()
     {
+        nameText.text = name_.text;
+        lvlText.text = DataManager.instance.level_.ToString();
         LoginParent.SetActive(false);
     }
 
