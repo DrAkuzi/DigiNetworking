@@ -9,6 +9,7 @@ public class DataManager : MonoBehaviour
     [HideInInspector] public string email_;
     [HideInInspector] public int level_;
     [HideInInspector] public int id_;
+    [HideInInspector] public int color;
 
     private void Awake()
     {

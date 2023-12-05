@@ -13,6 +13,8 @@ public class NameDisplay : MonoBehaviour
     {
         target = t;
         display.text = name_;
+        transform.SetParent(null);
+        transform.rotation = Quaternion.Euler(90f, 0, 0);
     }
     // Start is called before the first frame update
     void Start()

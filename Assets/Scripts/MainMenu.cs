@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] TMP_InputField email_;
     [SerializeField] TextMeshProUGUI lvlText;
     [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] TMP_Dropdown colorSelection;
 
 
     public static MainMenu instance;
@@ -47,6 +48,8 @@ public class MainMenu : MonoBehaviour
         {
             lvlText.text = DataManager.instance.LevelUp().ToString();
         });
+
+        colorSelection.onValueChanged.AddListener((change) => { DataManager.instance.color = change; });
     }
 
     public void LoginDone()
