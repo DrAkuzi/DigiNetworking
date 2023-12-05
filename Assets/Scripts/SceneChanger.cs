@@ -51,8 +51,11 @@ public class SceneChanger : MonoBehaviour
         }
         //if(!isServer) 
         DontDestroyOnLoad(gameObject);
-        if(isServer)
+        if (isServer)
+        {
+            Debug.Log("Starting server");
             LoadPlayScene();
+        }
         else
             SceneManager.LoadScene(1);
     }

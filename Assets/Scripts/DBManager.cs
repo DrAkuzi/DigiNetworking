@@ -66,7 +66,7 @@ public class DBManager : MonoBehaviour
                 {
                     Debug.Log("login successful");
                     //Debug.Log(w.downloadHandler.text);
-                    yield return null;
+                    //yield return null;
                     string[] info = tex.Split('|');
                     //print(line);
                     int id = Convert.ToInt32(info[0]);
@@ -119,7 +119,7 @@ public class DBManager : MonoBehaviour
                 if (tex != "" && tex != "1: Connection failed")
                 {
                     Debug.Log("new account added: " + name + ", "+ email);
-                    FetchAccount(name, email);
+                    StartCoroutine(FetchAccount(name, email));
                 }
                 else
                 {
