@@ -33,6 +33,9 @@ public class MainMenu : MonoBehaviour
 
         LoginBtn.onClick.AddListener(() =>
         {
+            if (name_.text == "" || email_.text == "")
+                return;
+
             WaitingPage.SetActive(true);
             LoginPage.SetActive(false);
             DBManager.instance.Login(name_.text, email_.text);

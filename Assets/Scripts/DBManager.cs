@@ -10,6 +10,7 @@ public class DBManager : MonoBehaviour
     const string addUser_url = "addNewUser.php";
     const string updateUserLevel_url = "updateUserLevel.php";
     const string getUser_url = "getUser.php";
+    const string test_url = "test.php";
 
     public static DBManager instance;
 
@@ -27,12 +28,13 @@ public class DBManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.P))
+            StartCoroutine(Test());
     }
 
     public void Login(string name, string email)
     {
-        FetchAccount(name, email);
+        StartCoroutine(FetchAccount(name, email));
     }
 
     IEnumerator FetchAccount(string name, string email)
@@ -42,17 +44,18 @@ public class DBManager : MonoBehaviour
 
         form.AddField("email", email);
 
+        Debug.Log("trying to fetch account");
+
         // Create a download object
         using (UnityWebRequest w = UnityWebRequest.Post(URL_PREFIX + getUser_url, form))
         {
-
             // Wait until the download is done
             yield return w.SendWebRequest();
 
             if (w.result == UnityWebRequest.Result.ConnectionError ||
                 w.result == UnityWebRequest.Result.ProtocolError)
             {
-                print("Error: " + w.error);
+                Debug.Log("Error: " + w.error + ", " + w.result);
             }
             else
             {
@@ -70,6 +73,7 @@ public class DBManager : MonoBehaviour
                     DataManager.instance.name_ = name;
                     DataManager.instance.email_ = email;
 
+                    Debug.Log("login successful");
                     MainMenu.instance.LoginDone();
                 }
                 else if(tex == "")
@@ -77,7 +81,7 @@ public class DBManager : MonoBehaviour
                     StartCoroutine(CreateAccount(name, email));
                 }
                 else
-                    print("fail to connect db");
+                    Debug.Log("fail to connect db");
             }
         }
     }
@@ -90,6 +94,8 @@ public class DBManager : MonoBehaviour
         form.AddField("name", name);
         form.AddField("email", email);
 
+        Debug.Log("creating new account");
+
         // Create a download object
         using (UnityWebRequest w = UnityWebRequest.Post(URL_PREFIX + addUser_url, form))
         {
@@ -100,7 +106,7 @@ public class DBManager : MonoBehaviour
             if (w.result == UnityWebRequest.Result.ConnectionError ||
                 w.result == UnityWebRequest.Result.ProtocolError)
             {
-                print("Error: " + w.error);
+                Debug.Log("Error: " + w.error + ", " + w.result);
             }
             else
             {
@@ -108,12 +114,12 @@ public class DBManager : MonoBehaviour
 
                 if (tex != "" && tex != "1: Connection failed")
                 {
-                    print("new account added: " + name + ", "+ email);
+                    Debug.Log("new account added: " + name + ", "+ email);
                     FetchAccount(name, email);
                 }
                 else
                 {
-                    print("fail to add new account, " + tex);
+                    Debug.Log("fail to add new account, " + tex);
                 }
             }
         }
@@ -142,7 +148,7 @@ public class DBManager : MonoBehaviour
             if (w.result == UnityWebRequest.Result.ConnectionError ||
                 w.result == UnityWebRequest.Result.ProtocolError)
             {
-                print("Error: " + w.error);
+                Debug.Log("Error: " + w.error + ", " + w.result);
             }
             else
             {
@@ -150,12 +156,35 @@ public class DBManager : MonoBehaviour
 
                 if (tex != "" && tex != "1: Connection failed")
                 {
-                    print("level updated for id: " + userID);
+                    Debug.Log("level updated for id: " + userID);
                 }
                 else
                 {
-                    print("fail to update level for id: " + userID + ", " + tex);
+                    Debug.Log("fail to update level for id: " + userID + ", " + tex);
                 }
+            }
+        }
+    }
+
+    IEnumerator Test()
+    {
+        using (UnityWebRequest w = UnityWebRequest.Get(URL_PREFIX + test_url))
+        {
+            // Wait until the download is done
+            yield return w.SendWebRequest();
+
+            switch (w.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError(": Error for presets: " + w.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError(": HTTP Error for presets: " + w.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    Debug.Log("Received: " + w.downloadHandler.text);
+                    break;
             }
         }
     }
