@@ -14,10 +14,10 @@ header('Access-Control-Allow-Headers: Accept, X-Access-Token, X-Application-Name
 	}
 	
 	$email = $_POST["email"];
-	$tabledataquery = "SELECT * FROM `networkingTest` WHERE email = " . $email;
+	$tabledataquery = "SELECT * FROM `networkingTest` WHERE email = '" . $email . "'";
 	
 	
-	if($result =  ($con,$tabledataquery))
+	if($result = ($con,$tabledataquery))
 	{
 		while($row = mysqli_fetch_row($result))
 		{

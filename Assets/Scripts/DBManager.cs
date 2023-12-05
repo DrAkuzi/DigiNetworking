@@ -44,7 +44,7 @@ public class DBManager : MonoBehaviour
 
         form.AddField("email", email);
 
-        Debug.Log("trying to fetch account");
+        Debug.Log("trying to fetch account name: " + name +", email: " + email);
 
         // Create a download object
         using (UnityWebRequest w = UnityWebRequest.Post(URL_PREFIX + getUser_url, form))
@@ -56,6 +56,7 @@ public class DBManager : MonoBehaviour
                 w.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.Log("Error: " + w.error + ", " + w.result);
+                //Debug.Log(w.downloadHandler.text);
             }
             else
             {
@@ -63,6 +64,9 @@ public class DBManager : MonoBehaviour
 
                 if (tex != "" && tex != "1: Connection failed")
                 {
+                    Debug.Log("login successful");
+                    //Debug.Log(w.downloadHandler.text);
+                    yield return null;
                     string[] info = tex.Split('|');
                     //print(line);
                     int id = Convert.ToInt32(info[0]);
@@ -73,7 +77,7 @@ public class DBManager : MonoBehaviour
                     DataManager.instance.name_ = name;
                     DataManager.instance.email_ = email;
 
-                    Debug.Log("login successful");
+                    
                     MainMenu.instance.LoginDone();
                 }
                 else if(tex == "")
