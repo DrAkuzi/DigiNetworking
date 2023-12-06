@@ -47,7 +47,6 @@ public class Player : NetworkBehaviour
         }
         else if (!IsServer && IsOwner)
         {
-            //SetNameDisplay(DataManager.instance.name_);
             myData.Value = new PlayerData 
             { 
                 name_ = DataManager.instance.name_, 
@@ -62,9 +61,6 @@ public class Player : NetworkBehaviour
             SetNameDisplay(newVal.name_.ToString());
             SetSkin(newVal.skin);
         };
-        //else if(!IsServer && IsOwner)
-        //SetNameDisplay(myData.Value.name_.ToString());
-
     }
 
     // Start is called before the first frame update
