@@ -90,7 +90,7 @@ public class Player : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             AddForceServerRpc();
 
         horizontal = Input.GetAxis("Horizontal");
